@@ -1,5 +1,6 @@
 plugins {
     java
+    application
 }
 
 group = "com.wooruang"
@@ -21,3 +22,27 @@ dependencies {
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
+
+val nativeBuildDir = "cmake-build-release"
+
+application {
+    applicationDefaultJvmArgs = listOf("-Djava.library.path=$projectDir/$nativeBuildDir")
+    mainClassName = "com.wooruang.jnng.JNNG"
+}
+
+task<Exec>("build-native-cmake") {
+    workingDir = file("$projectDir/$nativeBuildDir")
+    commandLine = listOf("cmake", "..")
+}
+
+task<Exec>("build-native-make") {
+    workingDir = file("$projectDir/$nativeBuildDir")
+    commandLine = listOf("make", "-j4")
+}
+
+task("go") {
+    dependsOn(":build-native-cmake")
+    dependsOn(":build-native-make")
+    dependsOn(":run")
+}
+
