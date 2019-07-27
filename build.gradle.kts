@@ -30,18 +30,24 @@ application {
     mainClassName = "com.wooruang.jnng.JNNG"
 }
 
+task<Exec>("build-native-mkdir") {
+    workingDir = file("$projectDir")
+    commandLine = listOf("mkdir", nativeBuildDir)
+}
+
 task<Exec>("build-native-cmake") {
+    dependsOn(":build-native-mkdir")
     workingDir = file("$projectDir/$nativeBuildDir")
     commandLine = listOf("cmake", "..")
 }
 
 task<Exec>("build-native-make") {
+    dependsOn(":build-native-cmake")
     workingDir = file("$projectDir/$nativeBuildDir")
     commandLine = listOf("make", "-j4")
 }
 
 task("go") {
-    dependsOn(":build-native-cmake")
     dependsOn(":build-native-make")
     dependsOn(":run")
 }
