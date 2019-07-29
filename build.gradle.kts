@@ -30,13 +30,18 @@ application {
     mainClassName = "com.wooruang.jnng.JNNG"
 }
 
+task<Exec>("update-native") {
+    workingDir = file("$projectDir")
+    commandLine = listOf("javac", "-h", "src/main/c", "src/main/java/com/wooruang/jnng/**/*.java")
+}
+
 task<Exec>("build-native-mkdir") {
     workingDir = file("$projectDir")
     commandLine = listOf("mkdir", nativeBuildDir)
 }
 
 task<Exec>("build-native-cmake") {
-    dependsOn(":build-native-mkdir")
+//    dependsOn(":build-native-mkdir")
     workingDir = file("$projectDir/$nativeBuildDir")
     commandLine = listOf("cmake", "..")
 }

@@ -1,5 +1,10 @@
 package com.wooruang.jnng;
 
+import com.wooruang.jnng.jni.NNG;
+import com.wooruang.jnng.jni.protocol.reqrep0.Rep;
+
+import java.util.Arrays;
+
 public class JNNG {
 
     static {
@@ -24,12 +29,71 @@ public class JNNG {
 
         System.out.println("Hello nng");
 
-        nng_listen(1,"", 1, 1);
+//        nng_listen(1,"", 1, 1);
+
+        long socket = NNG.new_nng_socket();
+        System.out.println(String.format("socket : %x", socket));
+
+        int ret = Rep.nng_rep0_open(socket);
+        if (ret != 0) {
+            System.out.println(String.format("socket : %d %s", ret, NNG.nng_strerror(ret)));
+        }
+
+        //rv = nng_recv(sock, &buf, &sz, NNG_FLAG_ALLOC)) != 0
+
+        ret = NNG.nng_listen(socket, "tcp://127.0.0.1:55888", 0, 0);
+
+        if (ret != 0) {
+            System.out.println(String.format("nng_listen : %d %s", ret, NNG.nng_strerror(ret)));
+        }
+
+        for (; ; ) {
+
+            byte[] buffer = new byte[50];
+
+//        for (int i = 0; i < buffer.length; ++i) {
+////            buffer[i] = 1;
+////        }
+////
+////        for (int i = 0; i < buffer.length; ++i) {
+////            System.out.println("byte " + buffer[i]);
+////        }
+            long[] buffer_len = new long[1];
+
+            ret = NNG.nng_recv(socket, buffer, buffer_len,1);
+            System.out.println(String.format("nng_recv : %d %d %s", buffer_len[0], ret, NNG.nng_strerror(ret)));
+            for (int i = 0; i < buffer.length; ++i) {
+                System.out.println("byte " + buffer[i]);
+            }
+
+            String a = buffer.toString();
+            System.out.println("aaa " + a);
+
+            String test = "test";
+            byte[] bb = new byte[5];
+            bb[0] = 51;
+            bb[1] = 52;
+            bb[2] = 53;
+            bb[3] = 54;
+            bb[4] = 55;
+//            try {
+////                bb = test.getBytes();
+//            } catch (Exception e) {
+//                System.out.println(e.toString());
+//                bb = new byte[50];
+//            }
+            ret = NNG.nng_send(socket, bb, 1);
+
+            System.out.println(String.format("nng_send : %d %s", ret, NNG.nng_strerror(ret)));
+
+            String b = bb.toString();
+            System.out.println("bbb " + b);
+        }
     }
 
-    // Declare a native method sayHello() that receives no arguments and returns void
-    private native static int nng_listen(long nng_socketI, String url, long nng_listener, int flags);
-    private native static int nng_recv(long nng_socketI, long data, long sizep, int flags);
+//    // Declare a native method sayHello() that receives no arguments and returns void
+//    private native static int nng_listen(long nng_socketI, String url, long nng_listener, int flags);
+//    private native static int nng_recv(long nng_socketI, long data, long sizep, int flags);
 
 }
 
