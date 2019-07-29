@@ -1,3 +1,3 @@
 rootProject.name = "jnng"
 
-include("jnng-server")
+include("jnng-server", "jnng-client")

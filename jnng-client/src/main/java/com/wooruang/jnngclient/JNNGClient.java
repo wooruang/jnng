@@ -1,17 +1,16 @@
-package com.wooruang.jnngserver;
+package com.wooruang.jnngclient;
 
 import com.wooruang.jnng.jni.NNG;
-import com.wooruang.jnng.jni.protocol.reqrep0.Rep;
+import com.wooruang.jnng.jni.protocol.reqrep0.Req;
 
-public class JNNGServer {
+public class JNNGClient {
 
     static {
         System.loadLibrary("jnng");
     }
 
     public static void main(String[] args) {
-
-        System.out.println("Start nng server.");
+        System.out.println("Start nng client.");
 
         String url;
         if (args.length <= 0) {
@@ -27,48 +26,49 @@ public class JNNGServer {
         long socket = NNG.new_nng_socket();
         System.out.println(String.format("socket : %x", socket));
 
-        int ret = Rep.nng_rep0_open(socket);
+        int ret = Req.nng_req0_open(socket);
         if (ret != 0) {
-            System.out.println(String.format("socket : %d %s", ret, NNG.nng_strerror(ret)));
+            System.out.println(String.format("nng_req0_open : %d %s", ret, NNG.nng_strerror(ret)));
             System.exit(1);
         }
 
-        ret = NNG.nng_listen(socket, url, 0, 0);
-
+        ret = NNG.nng_dial(socket, url, 0, 0);
         if (ret != 0) {
-            System.out.println(String.format("nng_listen : %d %s", ret, NNG.nng_strerror(ret)));
+            System.out.println(String.format("nng_dial : %d %s", ret, NNG.nng_strerror(ret)));
             System.exit(1);
         }
 
-        for (;;) {
+        String data = "tteesstt";
+        byte[] buffer;
 
-            byte[] buffer = new byte[50];
-            long[] buffer_len = new long[1];
+        try {
+            buffer = data.getBytes();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            buffer = new byte[1];
+        }
 
-            ret = NNG.nng_recv(socket, buffer, buffer_len,1);
-            System.out.println(String.format("nng_recv : %d %d %s", buffer_len[0], ret, NNG.nng_strerror(ret)));
-            for (int i = 0; i < buffer_len[0]; ++i) {
-                System.out.println("byte " + buffer[i]);
-            }
-
-            String a = buffer.toString();
-            System.out.println("aaa " + a);
-
-            String test = "test";
-            byte[] bb;
-            try {
-                bb = test.getBytes();
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                bb = new byte[5];
-            }
-            ret = NNG.nng_send(socket, bb, 1);
-
+        ret = NNG.nng_send(socket, buffer, 0);
+        if (ret != 0) {
             System.out.println(String.format("nng_send : %d %s", ret, NNG.nng_strerror(ret)));
-
-            String b = bb.toString();
-            System.out.println("bbb " + b);
+            System.exit(1);
         }
+
+        byte[] recv_buf = new byte[50];
+        long[] recv_len = new long[1];
+        ret = NNG.nng_recv(socket, recv_buf, recv_len, 1);
+        if (ret != 0) {
+            System.out.println(String.format("nng_recv : %d %s", ret, NNG.nng_strerror(ret)));
+            System.exit(1);
+        }
+
+        for (int i = 0; i < recv_len[0]; ++i) {
+            System.out.print(String.format("B %d ", recv_buf[i]));
+        }
+        System.out.println();
+        System.out.println("Recv : " + new String(recv_buf));
+
+        NNG.nng_close(socket);
     }
 }
 

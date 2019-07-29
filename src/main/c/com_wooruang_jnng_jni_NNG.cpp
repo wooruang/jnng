@@ -18,7 +18,17 @@ JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1listen
   int ret = nng_listen(soc, addr_str, (nng_listener *)listener, flags);
 
   env->ReleaseStringUTFChars(addr, addr_str);
-  return ret;
+  return (jint)ret;
+}
+
+jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1dial
+  (JNIEnv * env, jclass obj, jlong socket, jstring addr, jlong dialer, jint flags)
+{
+  const char * addr_str = env->GetStringUTFChars(addr, nullptr);
+  nng_socket & soc = *(nng_socket *)socket;
+  int ret = nng_dial(soc, addr_str, (nng_dialer *)dialer, flags);
+  env->ReleaseStringUTFChars(addr, addr_str);
+  return (jint)ret;
 }
 
 jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1send
@@ -58,6 +68,13 @@ jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1recv
   env->ReleaseByteArrayElements(_buf, buf, 0);
   env->ReleaseLongArrayElements(_len, len, 0);
   return (jint)ret;
+}
+
+jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1close
+  (JNIEnv * env, jclass obj, jlong socket)
+{
+  nng_socket & soc = *(nng_socket *)socket;
+  return (jint)nng_close(soc);
 }
 
 jstring JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1strerror(JNIEnv * env, jclass obj, jint num)

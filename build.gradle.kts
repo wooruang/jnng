@@ -31,7 +31,7 @@ application {
 }
 
 task<Exec>("update-native") {
-    workingDir = file("$projectDir")
+    workingDir = file("$rootDir")
     commandLine = listOf("javac", "-h", "src/main/c", "src/main/java/com/wooruang/jnng/**/*.java")
 }
 
@@ -55,4 +55,9 @@ task<Exec>("build-native-make") {
 task("go-server") {
     dependsOn(":build-native-make")
     dependsOn(":jnng-server:run")
+}
+
+task("go-client") {
+    dependsOn(":build-native-make")
+    dependsOn(":jnng-client:run")
 }
