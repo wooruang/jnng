@@ -1,8 +1,10 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 3.1)
 
 enable_language(CXX)
+set (CMAKE_CXX_STANDARD 11)
 
 project(jnng)
+
 
 set(SRC_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/src/main/c")
 
