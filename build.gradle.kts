@@ -52,8 +52,7 @@ task<Exec>("build-native-make") {
     commandLine = listOf("make", "-j4")
 }
 
-task("go") {
+task("go-server") {
     dependsOn(":build-native-make")
-    dependsOn(":run")
+    dependsOn(":jnng-server:run")
 }
-

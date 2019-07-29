@@ -1,27 +1,72 @@
-package com.wooruang.jnng;
+package com.wooruang.jnngserver;
 
-public class JNNG {
+import com.wooruang.jnng.jni.NNG;
+import com.wooruang.jnng.jni.protocol.reqrep0.Rep;
+
+public class JNNGServer {
 
     static {
         System.loadLibrary("jnng");
     }
 
-    enum NNG_FLAG {
-        ALLOC(1), // Recv to allocate receive buffer.
-        NONBLOCK(2);  // Non-blocking operations.
-
-        private final int value;
-        private NNG_FLAG(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
-
     public static void main(String[] args) {
 
+        System.out.println("Start nng server.");
+
+        String url;
+        if (args.length <= 0) {
+            url = "tcp://127.0.0.1:55888";
+            System.out.println("No argument for url.");
+            System.out.println("ex) {protocol}://{ip}:{port}");
+            System.out.println("Default: " + url);
+        } else {
+            url = args[0];
+            System.out.println("URL: " + url);
+        }
+
+        long socket = NNG.new_nng_socket();
+        System.out.println(String.format("socket : %x", socket));
+
+        int ret = Rep.nng_rep0_open(socket);
+        if (ret != 0) {
+            System.out.println(String.format("socket : %d %s", ret, NNG.nng_strerror(ret)));
+        }
+
+        ret = NNG.nng_listen(socket, url, 0, 0);
+
+        if (ret != 0) {
+            System.out.println(String.format("nng_listen : %d %s", ret, NNG.nng_strerror(ret)));
+        }
+
+        for (;;) {
+
+            byte[] buffer = new byte[50];
+            long[] buffer_len = new long[1];
+
+            ret = NNG.nng_recv(socket, buffer, buffer_len,1);
+            System.out.println(String.format("nng_recv : %d %d %s", buffer_len[0], ret, NNG.nng_strerror(ret)));
+            for (int i = 0; i < buffer_len[0]; ++i) {
+                System.out.println("byte " + buffer[i]);
+            }
+
+            String a = buffer.toString();
+            System.out.println("aaa " + a);
+
+            String test = "test";
+            byte[] bb;
+            try {
+                bb = test.getBytes();
+            } catch (Exception e) {
+                System.out.println(e.toString());
+                bb = new byte[5];
+            }
+            ret = NNG.nng_send(socket, bb, 1);
+
+            System.out.println(String.format("nng_send : %d %s", ret, NNG.nng_strerror(ret)));
+
+            String b = bb.toString();
+            System.out.println("bbb " + b);
+        }
     }
 }
 
