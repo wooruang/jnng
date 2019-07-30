@@ -60,7 +60,7 @@ jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1recv
   
   nng_socket & soc = *(nng_socket *)socket;
 
-  size_t size_t_len = 0;
+  size_t size_t_len = buf_size;
   int ret = nng_recv(soc, buf, &size_t_len, flags);
 
   len[0] = (jlong)size_t_len;

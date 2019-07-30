@@ -45,14 +45,12 @@ public class JNNGServer {
             byte[] buffer = new byte[50];
             long[] buffer_len = new long[1];
 
-            ret = NNG.nng_recv(socket, buffer, buffer_len,1);
+            ret = NNG.nng_recv(socket, buffer, buffer_len,0);
             System.out.println(String.format("nng_recv : %d %d %s", buffer_len[0], ret, NNG.nng_strerror(ret)));
             for (int i = 0; i < buffer_len[0]; ++i) {
                 System.out.println("byte " + buffer[i]);
             }
-
-            String a = buffer.toString();
-            System.out.println("aaa " + a);
+            System.out.println("Recv : " + new String(buffer));
 
             String test = "test";
             byte[] bb;
@@ -65,9 +63,6 @@ public class JNNGServer {
             ret = NNG.nng_send(socket, bb, 1);
 
             System.out.println(String.format("nng_send : %d %s", ret, NNG.nng_strerror(ret)));
-
-            String b = bb.toString();
-            System.out.println("bbb " + b);
         }
     }
 }

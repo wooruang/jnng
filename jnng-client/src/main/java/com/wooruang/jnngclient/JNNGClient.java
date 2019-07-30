@@ -56,7 +56,7 @@ public class JNNGClient {
 
         byte[] recv_buf = new byte[50];
         long[] recv_len = new long[1];
-        ret = NNG.nng_recv(socket, recv_buf, recv_len, 1);
+        ret = NNG.nng_recv(socket, recv_buf, recv_len, 0);
         if (ret != 0) {
             System.out.println(String.format("nng_recv : %d %s", ret, NNG.nng_strerror(ret)));
             System.exit(1);
