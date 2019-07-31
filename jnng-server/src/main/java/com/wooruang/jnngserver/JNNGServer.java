@@ -1,6 +1,7 @@
 package com.wooruang.jnngserver;
 
 import com.wooruang.jnng.jni.NNG;
+import com.wooruang.jnng.jni.NNGSocket;
 import com.wooruang.jnng.jni.protocol.reqrep0.Rep;
 
 public class JNNGServer {
@@ -24,14 +25,15 @@ public class JNNGServer {
             System.out.println("URL: " + url);
         }
 
-        long socket = NNG.new_nng_socket();
-        System.out.println(String.format("socket : %x", socket));
+        NNGSocket socket = new NNGSocket();
+        System.out.println(String.format("socket : %x", socket.id));
 
         int ret = Rep.nng_rep0_open(socket);
         if (ret != 0) {
-            System.out.println(String.format("socket : %d %s", ret, NNG.nng_strerror(ret)));
+            System.out.println(String.format("nng_rep0_open : %d %s", ret, NNG.nng_strerror(ret)));
             System.exit(1);
         }
+        System.out.println(String.format("nng_rep0_open socket : %x", socket.id));
 
         ret = NNG.nng_listen(socket, url, 0, 0);
 

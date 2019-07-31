@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_protocol_reqrep0_Rep_nng_1rep0_1open
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     com_wooruang_jnng_jni_protocol_reqrep0_Rep
@@ -21,7 +21,7 @@ JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_protocol_reqrep0_Rep_nng_1rep0
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_protocol_reqrep0_Rep_nng_1rep0_1open_1raw
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jobject);
 
 #ifdef __cplusplus
 }

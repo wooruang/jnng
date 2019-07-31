@@ -32,7 +32,7 @@ application {
 
 task<Exec>("update-native") {
     workingDir = file("$rootDir")
-    commandLine = listOf("javac", "-h", "src/main/c", "src/main/java/com/wooruang/jnng/**/*.java")
+    commandLine = listOf("javac", "-h", "$rootDir/src/main/c", "$rootDir/src/main/java/com/wooruang/jnng/**/*.java")
 }
 
 task<Exec>("build-native-mkdir") {
