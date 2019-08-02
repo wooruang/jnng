@@ -1,27 +1,8 @@
 package com.wooruang.jnng;
 
 public class JNNG {
-
-    static {
+    public static void initialize() {
         System.loadLibrary("jnng");
-    }
-
-    enum NNG_FLAG {
-        ALLOC(1), // Recv to allocate receive buffer.
-        NONBLOCK(2);  // Non-blocking operations.
-
-        private final int value;
-        private NNG_FLAG(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
-
-    public static void main(String[] args) {
-
     }
 }
 

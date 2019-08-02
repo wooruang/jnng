@@ -1,6 +1,7 @@
 plugins {
     java
-    application
+    `java-library`
+    `ivy-publish`
 }
 
 group = "com.wooruang"
@@ -23,12 +24,21 @@ configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
-val nativeBuildDir = "cmake-build-release"
-
-application {
-    applicationDefaultJvmArgs = listOf("-Djava.library.path=$projectDir/$nativeBuildDir")
-    mainClassName = "com.wooruang.jnng.JNNG"
+publishing {
+    publications {
+        create<IvyPublication>("ivy") {
+            from(components["java"])
+        }
+    }
+    repositories {
+        ivy {
+            url = uri("${System.getProperty("user.home")}/.ivy2/local")
+            layout("ivy")
+        }
+    }
 }
+
+val nativeBuildDir = "cmake-build-release"
 
 task<Exec>("update-native") {
     workingDir = file("$rootDir")
