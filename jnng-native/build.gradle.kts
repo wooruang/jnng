@@ -2,13 +2,13 @@
 group = "com.wooruang"
 
 val nativeBuildDir = "cmake-build-release"
-//val dynamicLibFile = file("$nativeBuildDir/libjnng.dylib")
-//val destLibsDir = file("$buildDir/classes/java/main/libs")
+
+rootProject.extra["dynamicLibFile"] = "$projectDir/$nativeBuildDir/libjnng.dylib"
 
 val nngBuildScript = "build-nng.sh"
 val javaFilesForJni =
         fileTree("$rootDir/src/main/java/com/wooruang/jnng/jni")
-                .filter { it.isFile() && it.extension == "java" }.toList()
+                .filter { /*println("$it");*/ it.isFile() && it.extension == "java" }.toList()
 
 task<Exec>("build-native-nng") {
     workingDir = file("$projectDir")
@@ -42,3 +42,4 @@ task<Exec>("build-native-make") {
 task("build") {
     dependsOn("build-native-make")
 }
+

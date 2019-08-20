@@ -15,26 +15,27 @@ repositories {
     mavenCentral()
 }
 
-val nativeBuildDir = "cmake-build-release"
-val dynamicLibFile = file("$nativeBuildDir/libjnng.dylib")
-val destLibsDir = file("$buildDir/classes/java/main/libs")
-
 dependencies {
     testCompile("junit", "junit", "4.12")
 }
+project.extra["dynamicLibFile"] = ""
 
 val libCopy by tasks.registering(Copy::class) {
+    dependsOn(":jnng-native:build")
+    val dynamicLibFile = file(project.extra["dynamicLibFile"].toString())
+    val destLibsDir = file("$buildDir/classes/java/main/libs")
+//    println("libCopy $dynamicLibFile")
+//    System.out.flush()
     from(dynamicLibFile)
     into(destLibsDir)
 }
 
 tasks.compileJava {
     dependsOn(libCopy)
-    dependsOn(":jnng-native:build-native-make")
 }
 
 tasks.register<Jar>("sourcesJar") {
-    from(sourceSets.main.get().allJava, file(dynamicLibFile))
+    from(sourceSets.main.get().allJava)
     archiveClassifier.set("sources")
 }
 
@@ -57,6 +58,8 @@ publishing {
     }
 }
 
+
+//val nativeBuildDir = "cmake-build-release"
 //project(":jnng-native") {
 //
 //    val nngBuildScript = "$rootDir/build-nng.sh"
