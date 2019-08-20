@@ -1,5 +1,4 @@
 plugins {
-    java
     `java-library`
     `ivy-publish`
 }
@@ -16,12 +15,31 @@ repositories {
     mavenCentral()
 }
 
+val nativeBuildDir = "cmake-build-release"
+val dynamicLibFile = file("$nativeBuildDir/libjnng.dylib")
+val destLibsDir = file("$buildDir/classes/java/main/libs")
+
 dependencies {
     testCompile("junit", "junit", "4.12")
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+val libCopy by tasks.registering(Copy::class) {
+    from(dynamicLibFile)
+    into(destLibsDir)
+}
+
+tasks.compileJava {
+    dependsOn(libCopy)
+}
+
+tasks.register<Jar>("sourcesJar") {
+    from(sourceSets.main.get().allJava, file(dynamicLibFile))
+    archiveClassifier.set("sources")
+}
+
+tasks.register<Jar>("javadocJar") {
+    from(tasks.javadoc)
+    archiveClassifier.set("javadoc")
 }
 
 publishing {
@@ -37,8 +55,6 @@ publishing {
         }
     }
 }
-
-val nativeBuildDir = "cmake-build-release"
 
 task<Exec>("update-native") {
     workingDir = file("$rootDir")
