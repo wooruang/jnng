@@ -30,6 +30,7 @@ val libCopy by tasks.registering(Copy::class) {
 
 tasks.compileJava {
     dependsOn(libCopy)
+    dependsOn(":jnng-native:build-native-make")
 }
 
 tasks.register<Jar>("sourcesJar") {
@@ -56,27 +57,45 @@ publishing {
     }
 }
 
-task<Exec>("update-native") {
-    workingDir = file("$rootDir")
-    commandLine = listOf("javac", "-h", "$rootDir/src/main/c", "$rootDir/src/main/java/com/wooruang/jnng/**/*.java")
-}
+//project(":jnng-native") {
+//
+//    val nngBuildScript = "$rootDir/build-nng.sh"
+//    val javaFilesForJni =
+//            fileTree("$rootDir/src/main/java/com/wooruang/jnng/jni")
+//                    .filter { it.isFile() && it.extension == "java" }.toList()
+//
+//    task<Exec>("build-native-nng") {
+//        workingDir = file("$rootDir")
+//        commandLine = listOf("bash", nngBuildScript)
+//    }
+//
+//    task<Exec>("update-native") {
+//        dependsOn(":build-native-nng")
+//        workingDir = file("$rootDir")
+//        commandLine = listOf("javac", "-h", "$rootDir/src/main/c") + javaFilesForJni
+//    }
+//
+//
+//    task<Exec>("build-native-mkdir") {
+//        dependsOn(":update-native")
+//        workingDir = file("$rootDir")
+//        commandLine = listOf("mkdir", "-p", nativeBuildDir)
+//    }
+//
+//    task<Exec>("build-native-cmake") {
+//        dependsOn(":build-native-mkdir")
+//        workingDir = file("$rootDir/$nativeBuildDir")
+//        commandLine = listOf("cmake", "..")
+//    }
+//
+//    task<Exec>("build-native-make") {
+//        dependsOn(":build-native-cmake")
+//        workingDir = file("$rootDir/$nativeBuildDir")
+//        commandLine = listOf("make", "-j4")
+//    }
+//}
 
-task<Exec>("build-native-mkdir") {
-    workingDir = file("$projectDir")
-    commandLine = listOf("mkdir", nativeBuildDir)
-}
 
-task<Exec>("build-native-cmake") {
-//    dependsOn(":build-native-mkdir")
-    workingDir = file("$projectDir/$nativeBuildDir")
-    commandLine = listOf("cmake", "..")
-}
-
-task<Exec>("build-native-make") {
-    dependsOn(":build-native-cmake")
-    workingDir = file("$projectDir/$nativeBuildDir")
-    commandLine = listOf("make", "-j4")
-}
 
 task("go-server") {
     dependsOn(":build-native-make")

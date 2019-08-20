@@ -5,8 +5,8 @@ BUILD_DIR="build"
 INSTALL_DIR="install"
 
 echo "Make dirs for build & install ..."
-mkdir $NNG_DIR/$BUILD_DIR
-mkdir $NNG_DIR/$INSTALL_DIR
+mkdir -p $NNG_DIR/$BUILD_DIR
+mkdir -p $NNG_DIR/$INSTALL_DIR
 
 cd $NNG_DIR/$BUILD_DIR
 

@@ -10,7 +10,7 @@ extern "C" {
 /*
  * Class:     com_wooruang_jnng_jni_NNG
  * Method:    nng_listen
- * Signature: (Lcom/wooruang/jnng/jni/NNG/NNGSocket;Ljava/lang/String;JI)I
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;Ljava/lang/String;JI)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1listen
   (JNIEnv *, jclass, jobject, jstring, jlong, jint);
@@ -18,7 +18,7 @@ JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1listen
 /*
  * Class:     com_wooruang_jnng_jni_NNG
  * Method:    nng_dial
- * Signature: (Lcom/wooruang/jnng/jni/NNG/NNGSocket;Ljava/lang/String;JI)I
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;Ljava/lang/String;JI)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1dial
   (JNIEnv *, jclass, jobject, jstring, jlong, jint);
@@ -26,7 +26,7 @@ JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1dial
 /*
  * Class:     com_wooruang_jnng_jni_NNG
  * Method:    nng_send
- * Signature: (Lcom/wooruang/jnng/jni/NNG/NNGSocket;[BI)I
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;[BI)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1send
   (JNIEnv *, jclass, jobject, jbyteArray, jint);
@@ -34,7 +34,7 @@ JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1send
 /*
  * Class:     com_wooruang_jnng_jni_NNG
  * Method:    nng_recv
- * Signature: (Lcom/wooruang/jnng/jni/NNG/NNGSocket;[B[JI)I
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;[B[JI)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1recv
   (JNIEnv *, jclass, jobject, jbyteArray, jlongArray, jint);
@@ -50,7 +50,7 @@ JNIEXPORT void JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1free
 /*
  * Class:     com_wooruang_jnng_jni_NNG
  * Method:    nng_close
- * Signature: (Lcom/wooruang/jnng/jni/NNG/NNGSocket;)I
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1close
   (JNIEnv *, jclass, jobject);

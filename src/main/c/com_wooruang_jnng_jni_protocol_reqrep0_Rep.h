@@ -10,7 +10,7 @@ extern "C" {
 /*
  * Class:     com_wooruang_jnng_jni_protocol_reqrep0_Rep
  * Method:    nng_rep0_open
- * Signature: (J)I
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_protocol_reqrep0_Rep_nng_1rep0_1open
   (JNIEnv *, jclass, jobject);
@@ -18,7 +18,7 @@ JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_protocol_reqrep0_Rep_nng_1rep0
 /*
  * Class:     com_wooruang_jnng_jni_protocol_reqrep0_Rep
  * Method:    nng_rep0_open_raw
- * Signature: (J)I
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;)I
  */
 JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_protocol_reqrep0_Rep_nng_1rep0_1open_1raw
   (JNIEnv *, jclass, jobject);
