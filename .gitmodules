@@ -1,0 +1,3 @@
+[submodule "jnng-native/nng"]
+	path = jnng-native/nng
+	url = https://github.com/nanomsg/nng.git
