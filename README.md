@@ -2,18 +2,23 @@
 
 This project is a wrapper of [nng](https://github.com/nanomsg/nng)\(nanomsg-next-generation) by using [JNI](https://en.wikipedia.org/wiki/Java_Native_Interface) for [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine)
 
-## How to setup.
+## How to build.
 
-This project support Linux and MacOS. (Not windows yet.)
+This project support MacOS. (Not Linux and Windows yet.)
 
 ### 1. Clone a repository.
 ``` bash
 $ git clone --recurse-submodules https://github.com/wooruang/jnng.git
 ```
 
-### 2. build nng.
+### 2. Build.
 ```bash
-$ ./build-nng.sh
+$ ./gradlew build
+```
+
+### 3. Publish (To local repository for ivy2).
+```bash
+$ ./gradlew publish
 ```
 
 ## Test as Server/Client
