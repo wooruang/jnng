@@ -1,8 +1,49 @@
 package com.wooruang.jnng;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class JNNG {
+
+    public static final String LIBNAME = "jnng";
+
+    public static String getFullLibName(String name) {
+        return System.mapLibraryName(name);
+    }
+
+    public static String getLibSuffix(String libname) {
+        return libname.substring(libname.lastIndexOf('.'));
+    }
+
     public static void initialize() {
-        System.loadLibrary("jnng");
+        try {
+
+            // Get input stream from jar resource
+            InputStream inputStream = new JNNG().getClass().getResource("/libs/" + getFullLibName(LIBNAME)).openStream();
+
+            System.out.println(new JNNG().getClass().getResource("/libs/" + getFullLibName(LIBNAME)));
+
+            // Copy resource to filesystem in a temp folder with a unique name
+            File temporaryDll = File.createTempFile(LIBNAME, getLibSuffix(getFullLibName(LIBNAME)));
+            FileOutputStream outputStream = new FileOutputStream(temporaryDll);
+            byte[] array = new byte[8192];
+            int read = 0;
+            while ((read = inputStream.read(array)) > 0) {
+                outputStream.write(array, 0, read);
+            }
+
+            outputStream.close();
+
+            // Delete on exit the dll
+            temporaryDll.deleteOnExit();
+
+            // Finally, load the dll
+            System.load(temporaryDll.getPath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
