@@ -46,6 +46,31 @@ public class Socket {
           return NNG.nng_close(socket);
      }
 
+     public int setOption(NNG.NNGOptions option, byte[] buf, long size) {
+          return NNG.nng_setopt(socket, option.getText(), buf, size);
+     }
+     public int setOptionAsBool(NNG.NNGOptions option, boolean val) {
+          return NNG.nng_setopt_bool(socket, option.getText(), val);
+     }
+     public int setOptionAsInt(NNG.NNGOptions option, int val) {
+          return NNG.nng_setopt_int(socket, option.getText(), val);
+     }
+     public int setOptionAsMs(NNG.NNGOptions option, int milli) {
+          return NNG.nng_setopt_ms(socket, option.getText(), milli);
+     }
+     public int setOptionAsPtr(NNG.NNGOptions option, long ptr) {
+          return NNG.nng_setopt_ptr(socket, option.getText(), ptr);
+     }
+     public int setOptionAsSize(NNG.NNGOptions option, long val) {
+          return NNG.nng_setopt_size(socket, option.getText(), val);
+     }
+     public int setOptionAsString(NNG.NNGOptions option, String str) {
+          return NNG.nng_setopt_string(socket, option.getText(), str);
+     }
+     public int setOptionAsUint64(NNG.NNGOptions option, long val) {
+          return NNG.nng_setopt_unit64(socket, option.getText(), val);
+     }
+
      public int send(Message msg) {
           return NNG.nng_send(socket, msg.getBytes(), 0);
      }
