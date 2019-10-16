@@ -88,7 +88,7 @@ publishing {
         maven {
             credentials {
 
-                username = project.properties["nexusPassword"].toString()
+                username = project.properties["nexusUsername"].toString()
                 password = project.properties["nexusPassword"].toString()
             }
             name = "ossrh-snapshot"
