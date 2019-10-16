@@ -1,10 +1,12 @@
 plugins {
     `java-library`
     `ivy-publish`
+    `maven-publish`
+    signing
 }
 
 group = "com.wooruang"
-version = "1.0-SNAPSHOT"
+version = "0.1-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -49,56 +51,63 @@ publishing {
         create<IvyPublication>("ivy") {
             from(components["java"])
         }
+        create<MavenPublication>("maven") {
+            from(components["java"])
+
+            pom {
+                name.set("jnng")
+                description.set("This project is a wrapper of nng(nanomsg-next-generation) by using JNI for JVM")
+                url.set("https://github.com/wooruang")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("http://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("wooruang")
+                        name.set("HanSaem")
+                        email.set("wooruang@gmail.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/wooruang/jnng.git")
+                    developerConnection.set("scm:git:git@github.com:wooruang/jnng.git")
+                    url.set("https://github.com/wooruang/jnng")
+                }
+            }
+        }
     }
     repositories {
         ivy {
             url = uri("${System.getProperty("user.home")}/.ivy2/local")
             layout("ivy")
         }
+        mavenCentral()
+        maven {
+            credentials {
+
+                username = project.properties["nexusPassword"].toString()
+                password = project.properties["nexusPassword"].toString()
+            }
+            name = "ossrh-snapshot"
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+        }
+        maven {
+            credentials {
+                username = project.properties["nexusUsername"].toString()
+                password = project.properties["nexusPassword"].toString()
+            }
+            name = "ossrh-staging-for-release"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+        }
     }
 }
 
-
-//val nativeBuildDir = "cmake-build-release"
-//project(":jnng-native") {
-//
-//    val nngBuildScript = "$rootDir/build-nng.sh"
-//    val javaFilesForJni =
-//            fileTree("$rootDir/src/main/java/com/wooruang/jnng/jni")
-//                    .filter { it.isFile() && it.extension == "java" }.toList()
-//
-//    task<Exec>("build-native-nng") {
-//        workingDir = file("$rootDir")
-//        commandLine = listOf("bash", nngBuildScript)
-//    }
-//
-//    task<Exec>("update-native") {
-//        dependsOn(":build-native-nng")
-//        workingDir = file("$rootDir")
-//        commandLine = listOf("javac", "-h", "$rootDir/src/main/c") + javaFilesForJni
-//    }
-//
-//
-//    task<Exec>("build-native-mkdir") {
-//        dependsOn(":update-native")
-//        workingDir = file("$rootDir")
-//        commandLine = listOf("mkdir", "-p", nativeBuildDir)
-//    }
-//
-//    task<Exec>("build-native-cmake") {
-//        dependsOn(":build-native-mkdir")
-//        workingDir = file("$rootDir/$nativeBuildDir")
-//        commandLine = listOf("cmake", "..")
-//    }
-//
-//    task<Exec>("build-native-make") {
-//        dependsOn(":build-native-cmake")
-//        workingDir = file("$rootDir/$nativeBuildDir")
-//        commandLine = listOf("make", "-j4")
-//    }
-//}
-
-
+signing {
+    sign(publishing.publications["maven"])
+}
 
 task("go-server") {
     dependsOn(":build-native-make")
