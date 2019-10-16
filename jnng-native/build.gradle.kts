@@ -3,7 +3,7 @@ group = "com.wooruang"
 
 val nativeBuildDir = "cmake-build-release"
 
-rootProject.extra["dynamicLibFile"] = "$projectDir/$nativeBuildDir/libjnng.dylib"
+rootProject.extra["dynamicLibFile"] = "$projectDir/$nativeBuildDir/${System.mapLibraryName(rootProject.name)}"
 
 val nngBuildScript = "build-nng.sh"
 val javaFilesForJni =

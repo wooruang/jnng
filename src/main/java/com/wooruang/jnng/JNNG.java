@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 
 public class JNNG {
 
@@ -21,9 +22,9 @@ public class JNNG {
         try {
 
             // Get input stream from jar resource
-            InputStream inputStream = new JNNG().getClass().getResource("/libs/" + getFullLibName(LIBNAME)).openStream();
-
-            System.out.println(new JNNG().getClass().getResource("/libs/" + getFullLibName(LIBNAME)));
+            //InputStream inputStream = new JNNG().getClass().getResource("/libs/" + getFullLibName(LIBNAME)).openStream();
+            URL url = JNNG.class.getResource("/libs/" + getFullLibName(LIBNAME));
+            InputStream inputStream = url.openStream();
 
             // Copy resource to filesystem in a temp folder with a unique name
             File temporaryDll = File.createTempFile(LIBNAME, getLibSuffix(getFullLibName(LIBNAME)));
