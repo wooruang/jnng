@@ -20,7 +20,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   # Mac OSX
   echo "MacOSX"
-  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../$INSTALL_DIR ..
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../$INSTALL_DIR $NNG_PATH
 #elif [[ "$OSTYPE" == "cygwin" ]]; then
 #        # POSIX compatibility layer and Linux environment emulation for Windows
 #elif [[ "$OSTYPE" == "msys" ]]; then
