@@ -24,11 +24,12 @@ project.extra["dynamicLibFile"] = ""
 
 val libCopy by tasks.registering(Copy::class) {
     dependsOn(":jnng-native:build")
-    val dynamicLibFile = file(project.extra["dynamicLibFile"].toString())
+    val dynamicLibFileForUbuntu = file(project.extra["dynamicLibFileForUbuntu"].toString())
+    val dynamicLibFileForMacOS = file(project.extra["dynamicLibFileForMacOS"].toString())
     val destLibsDir = file("$buildDir/classes/java/main/libs")
 //    println("libCopy $dynamicLibFile")
 //    System.out.flush()
-    from(dynamicLibFile)
+    from(dynamicLibFileForUbuntu, dynamicLibFileForMacOS)
     into(destLibsDir)
 }
 
