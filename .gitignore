@@ -327,5 +327,12 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
+### NNG BUILD ###
+nng-build
+
+### OpenJDK ###
+jdk-*
+openjdk*
+
 # End of https://www.gitignore.io/api/vim,java,scala,linux,macos,maven,gradle,kotlin,windows,eclipse,intellij+all,visualstudiocode
 

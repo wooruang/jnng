@@ -8,7 +8,6 @@ JDK_MD5=$JDK_TAR".sha256"
 JDK_BASE_URL="https://download.java.net/java/GA/jdk11/9/GPL/"
 JDK_URL=$JDK_BASE_URL$JDK_TAR
 JDK_MD5_URL=$JDK_BASE_URL$JDK_MD5
-PATH="${PATH}:/$JDK_VER/bin"
 
 # Exist Check!
 if [[ -f "$JDK_TAR" ]]; then
@@ -32,7 +31,7 @@ echo $OSTYPE
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   # Linux
   echo "Linux"
-#  echo "`cat $JDK_MD5` $JDK_TAR" > $JDK_MD5 && sha256sum $JDK_TAR | sha256sum --check $JDK_MD5
+  cat $JDK_MD5 | awk -v file=$JDK_TAR '{print $1, "", file }' | shasum -a 256 -c
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   # Mac OSX
   echo "MacOSX"
@@ -57,12 +56,24 @@ then
   exit 1
 fi
 
+# Extract a tar file.
 if [[ -d "$JDK_VER" ]]
 then
   echo "Already extract a tar file. ($JDK_VER)"
-  exit 0
+else
+  tar xzf $JDK_TAR && java -version
 fi
 
-# Extract a tar file.
-tar xzf $JDK_TAR && java -version
+
+$PWD/$JDK_VER/bin/java --version
+
+if [[ $? -eq 0 ]]
+then
+  export PATH=$PATH:$PWD/$JDK_VER/bin
+  export JAVA_HOME=$PWD/$JDK_VER
+  echo "Success."
+else
+  echo "Fail."
+fi
+
 

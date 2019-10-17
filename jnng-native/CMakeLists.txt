@@ -5,11 +5,12 @@ set (CMAKE_CXX_STANDARD 11)
 
 project(jnng)
 
+set(NNG_DIR "nng-build")
 
 set(SRC_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/src/main/c")
 
-set(NNG_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/nng/install/include")
-set(NNG_LIBRARIES "${PROJECT_SOURCE_DIR}/nng/install/lib/libnng.a")
+set(NNG_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/${NNG_DIR}/install/include")
+set(NNG_LIBRARIES "${PROJECT_SOURCE_DIR}/${NNG_DIR}/install/lib/libnng.a")
 
 message(STATUS "nng include - ${NNG_INCLUDE_DIRS}")
 message(STATUS "nng libraries - ${NNG_LIBRARIES}")
