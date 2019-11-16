@@ -71,6 +71,20 @@ public class Socket {
           return NNG.nng_setopt_unit64(socket, option.getText(), val);
      }
 
+     // Get
+     public long getOption(NNG.NNGOptions option, byte[] val, long[] len) {
+          return NNG.nng_getopt(socket, option.getText(), val, len);
+     }
+     public int getOptionAsInt(NNG.NNGOptions option, int[] val) {
+          return NNG.nng_getopt_int(socket, option.getText(), val);
+     }
+     public int getOptionAsMs(NNG.NNGOptions option, int[] milli) {
+          return NNG.nng_getopt_ms(socket, option.getText(), milli);
+     }
+     public long getOptionAsSize(NNG.NNGOptions option, long[] val) {
+          return NNG.nng_getopt_size(socket, option.getText(), val);
+     }
+
      public int send(Message msg) {
           return NNG.nng_send(socket, msg.getBytes(), 0);
      }

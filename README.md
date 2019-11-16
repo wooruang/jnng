@@ -3,12 +3,20 @@
 This project is a wrapper of [nng](https://github.com/nanomsg/nng)\(nanomsg-next-generation) by using [JNI](https://en.wikipedia.org/wiki/Java_Native_Interface) for [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine)
 
 ## How to build.
-
 This project support MacOS. (Not Linux and Windows yet.)
+
+### Prerequirements.
+* curl
+* cmake
 
 ### 1. Clone a repository.
 ``` bash
 $ git clone --recurse-submodules https://github.com/wooruang/jnng.git
+
+If you have already run the 'clone' command, follow the commands below.
+
+$ git submodule init 
+$ git submodule update 
 ```
 
 ### 2. Build.

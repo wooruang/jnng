@@ -121,6 +121,38 @@ JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1setopt_1unit64
 
 /*
  * Class:     com_wooruang_jnng_jni_NNG
+ * Method:    nng_getopt
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;Ljava/lang/String;[B[J)J
+ */
+JNIEXPORT jlong JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1getopt
+  (JNIEnv *, jclass, jobject, jstring, jbyteArray, jlongArray);
+
+/*
+ * Class:     com_wooruang_jnng_jni_NNG
+ * Method:    nng_getopt_int
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;Ljava/lang/String;[I)I
+ */
+JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1getopt_1int
+  (JNIEnv *, jclass, jobject, jstring, jintArray);
+
+/*
+ * Class:     com_wooruang_jnng_jni_NNG
+ * Method:    nng_getopt_ms
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;Ljava/lang/String;[I)I
+ */
+JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1getopt_1ms
+  (JNIEnv *, jclass, jobject, jstring, jintArray);
+
+/*
+ * Class:     com_wooruang_jnng_jni_NNG
+ * Method:    nng_getopt_size
+ * Signature: (Lcom/wooruang/jnng/jni/NNGSocket;Ljava/lang/String;[J)I
+ */
+JNIEXPORT jint JNICALL Java_com_wooruang_jnng_jni_NNG_nng_1getopt_1size
+  (JNIEnv *, jclass, jobject, jstring, jlongArray);
+
+/*
+ * Class:     com_wooruang_jnng_jni_NNG
  * Method:    nng_strerror
  * Signature: (I)Ljava/lang/String;
  */

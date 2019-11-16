@@ -85,6 +85,11 @@ public class NNG {
     public native static int nng_setopt_string(NNGSocket socket, String opt, String str);
     public native static int nng_setopt_unit64(NNGSocket socket, String opt, long u64);
 
+    public native static long nng_getopt(NNGSocket socket, String opt, byte[] buf, long[] len);
+    public native static int nng_getopt_int(NNGSocket socket, String opt, int[] val);
+    public native static int nng_getopt_ms(NNGSocket socket, String opt, int[] val);
+    public native static int nng_getopt_size(NNGSocket socket, String opt, long[] val);
+
     public native static String nng_strerror(int num);
 
 }

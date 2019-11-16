@@ -24,7 +24,7 @@ configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
-val nativeBuildDir = "cmake-build-release"
+val nativeBuildDir = "jnng-native/cmake-build-release"
 
 application {
     applicationDefaultJvmArgs = listOf("-Djava.library.path=$rootDir/$nativeBuildDir")

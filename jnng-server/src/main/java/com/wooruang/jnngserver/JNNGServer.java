@@ -46,6 +46,13 @@ public class JNNGServer {
             System.exit(1);
         }
 
+        server.setOptionAsMs(NNG.NNGOptions.NNG_OPT_RECVTIMEO, 1010);
+        int[] a = new int[]{0};
+        server.getOptionAsMs(NNG.NNGOptions.NNG_OPT_RECVTIMEO, a);
+
+        System.out.println("aaaaa " + a[0]);
+        System.out.flush();
+
         for (;;) {
             Message msg = new Message(50);
 
